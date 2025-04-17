@@ -1,0 +1,176 @@
+.ai-visualization {
+  margin: 2rem 0;
+}
+
+.visualization-container {
+  position: relative;
+  background: linear-gradient(135deg, rgba(16, 20, 35, 0.9), rgba(26, 32, 50, 0.9));
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.visualization-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 40px rgba(108, 92, 231, 0.2);
+}
+
+.visualization-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(16, 20, 35, 0.8) 0%,
+    rgba(26, 32, 50, 0.4) 100%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.overlay-content {
+  text-align: center;
+  color: var(--text);
+  transform: translateY(20px);
+  animation: slideUp 0.5s ease forwards;
+}
+
+.overlay-content h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.overlay-content p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+/* Points de données flottants */
+.data-point {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 20px var(--accent);
+  animation: pulse 2s infinite;
+}
+
+.data-point::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.3;
+  animation: ripple 2s infinite;
+}
+
+/* Lignes de connexion */
+.connection-line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.3;
+  transform-origin: left;
+  animation: expandLine 2s infinite;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    width: 16px;
+    height: 16px;
+    opacity: 0.3;
+  }
+  100% {
+    width: 32px;
+    height: 32px;
+    opacity: 0;
+  }
+}
+
+@keyframes expandLine {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .visualization-container {
+    height: 300px !important;
+  }
+
+  .overlay-content h3 {
+    font-size: 1.4rem;
+  }
+
+  .overlay-content p {
+    font-size: 1rem;
+  }
+}
+
+/* Effets de performance */
+.visualization-container canvas {
+  will-change: transform;
+} 
