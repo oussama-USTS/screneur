@@ -1,8 +1,8 @@
 # Utiliser Node.js comme image de base
 FROM node:18-alpine
 
-# Installer les dépendances nécessaires
-RUN apk add --no-cache python3 make g++ git
+# Installer les dépendances nécessaires incluant curl pour le healthcheck
+RUN apk add --no-cache python3 make g++ git curl
 
 # Définir le répertoire de travail
 WORKDIR /app
