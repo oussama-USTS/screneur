@@ -16,15 +16,12 @@ RUN npm install --legacy-peer-deps
 # Copier le reste des fichiers de l'application
 COPY . .
 
-# Construire l'application pour la production
-RUN npm run build
-
 # Exposer le port
 EXPOSE 5173
 
 # Définir les variables d'environnement
-ENV NODE_ENV=production
+ENV NODE_ENV=development
 ENV VITE_HOST=0.0.0.0
 
 # Commande pour démarrer l'application
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+CMD ["sh", "-c", "npm run dev -- --host 0.0.0.0 --port 5173"]
