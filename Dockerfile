@@ -10,8 +10,8 @@ WORKDIR /app
 # Copier les fichiers de dépendances
 COPY package*.json ./
 
-# Installer les dépendances avec un niveau de log plus détaillé
-RUN npm install --verbose
+# Installer les dépendances avec --legacy-peer-deps
+RUN npm install --legacy-peer-deps
 
 # Copier le reste des fichiers de l'application
 COPY . .
