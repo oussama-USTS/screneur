@@ -1,4 +1,5 @@
 # Utiliser Node.js comme image de base
+# Utiliser Node.js comme image de base
 FROM node:18-alpine
 
 # Définir le répertoire de travail
@@ -8,7 +9,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installer les dépendances
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Copier le reste des fichiers de l'application
 COPY . .
@@ -50,3 +51,7 @@ EXPOSE 80
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"] 
+
+
+
+
