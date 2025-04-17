@@ -1,27 +1,52 @@
 # Utiliser Node.js comme image de base
 FROM node:18-alpine
 
-# Installer les dépendances nécessaires incluant curl pour le healthcheck
-RUN apk add --no-cache python3 make g++ git curl
-
 # Définir le répertoire de travail
 WORKDIR /app
 
-# Copier les fichiers de dépendances
+# Copier les fichiers package.json et package-lock.json
 COPY package*.json ./
 
-# Installer les dépendances avec --legacy-peer-deps
-RUN npm install --legacy-peer-deps
+# Installer les dépendances
+RUN npm install
 
 # Copier le reste des fichiers de l'application
 COPY . .
 
-# Exposer le port
-EXPOSE 5173
+# Exposer le port 3000
+EXPOSE 3000
 
-# Définir les variables d'environnement
-ENV NODE_ENV=development
-ENV VITE_HOST=0.0.0.0
+# Démarrer l'application
+CMD ["npm", "start"]
 
-# Commande pour démarrer l'application
-CMD ["sh", "-c", "npm run dev -- --host 0.0.0.0 --port 5173"]
+# Build stage
+FROM node:18-alpine as build
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Build the app
+RUN npm run build
+
+# Production stage
+FROM nginx:alpine
+
+# Copy built assets from build stage
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Copy nginx configuration if needed
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"] 
